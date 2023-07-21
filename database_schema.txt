@@ -1,0 +1,22 @@
+Collection users
+ document name
+    - name:     String (2 < name.length < 17)
+    - email:    String
+    - password: String
+
+Collection friends
+ document name
+    - lat:      double
+    - lng:      double 
+    - friend:   List<String> (name) 
+    - outbound: List<String> (name) 
+    - inbound:  List<String> (name) 
+
+!NB the value of the username is used in as the keys to the documents 
+
+
+Dictionary
+    - users => name: username
+    - friends => friends: list of friends
+    - friends => outbound: list of friend request sent BY the user
+    - friends => inbound: list of friend request sent TO the user
