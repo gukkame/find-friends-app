@@ -6,7 +6,7 @@ import '../../components/container.dart';
 import '../../components/scaffold.dart';
 import '../../utils/colors.dart';
 
-class AddNote extends StatefulWidget {
+class LogIn extends StatefulWidget {
   // late DB _db;
   late String _title;
   late double _scaffoldBorderRadius;
@@ -15,7 +15,7 @@ class AddNote extends StatefulWidget {
   get title => _title;
   get borderRadius => _scaffoldBorderRadius;
 
-  AddNote(
+  LogIn(
       {super.key,
       // required DB db,
       required String title,
@@ -26,10 +26,10 @@ class AddNote extends StatefulWidget {
   }
 
   @override
-  State<AddNote> createState() => _AddNoteState();
+  State<LogIn> createState() => _AddNoteState();
 }
 
-class _AddNoteState extends State<AddNote> {
+class _AddNoteState extends State<LogIn> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -82,7 +82,8 @@ class _AddNoteState extends State<AddNote> {
                             if (value == null || value.isEmpty) {
                               titleCheck = BorderColor.error;
                               return "Email required";
-                            } else if (!value.contains("@") ||!value.contains(".")||
+                            } else if (!value.contains("@") ||
+                                !value.contains(".") ||
                                 value.length < 4) {
                               titleCheck = BorderColor.error;
                               return "Email is wrong";

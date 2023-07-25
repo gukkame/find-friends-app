@@ -16,9 +16,10 @@ class MainApp extends StatelessWidget {
       title: 'Map Markers',
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
+      
       routes: {
-        '/login': (context) => AddNote(title: 'kahoot'),
-        '/signup': (context) => const SignUp(),
+        '/login': (context) => LogIn(title: 'kahoot'),
+        '/signup': (context) => SignUp(),
         // '/friend-list': (context) => FavoritePage(),
         // '/search': (context) => FavoritePage(),
         // '/invites': (context) => FavoritePage(),
