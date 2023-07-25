@@ -181,7 +181,7 @@ class _AddNoteState extends State<SignUp> {
                           decoration: InputDecoration(
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              hintText: "Password",
+                              hintText: "Password again",
                               border: pass2Check != BorderColor.error
                                   ? InputBorder.none
                                   : null),
@@ -214,7 +214,7 @@ class _AddNoteState extends State<SignUp> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           setState(() {});
-                          //! BE Check DB if correct, navigate to friend list page, if not, display error
+                          //! BE Register user to DB, navigate to friends list page
                           // widget.db.addNote(
                           //     _titleController.text, _descController.text);
                           // navigate(context, "/friend-list");
