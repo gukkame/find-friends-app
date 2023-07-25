@@ -1,13 +1,16 @@
 Collection users
- document name
+ document email
     - name:     String (2 < name.length < 17)
     - email:    String
     - password: String
 
-Collection friends
+Collection locations
  document name
     - lat:      double
     - lng:      double 
+
+Collection friends
+ document name
     - friend:   List<String> (name) 
     - outbound: List<String> (name) 
     - inbound:  List<String> (name) 
