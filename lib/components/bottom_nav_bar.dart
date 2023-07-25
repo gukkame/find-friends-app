@@ -20,13 +20,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
     });
     switch (_selectedIndex) {
       case 0:
-        navigate(context, "/");
+        navigate(context, "/map");
         break;
       case 1:
-        navigate(context, "/fav");
+        navigate(context, "/friend-list");
         break;
       case 2:
-        navigate(context, "/info");
+        navigate(context, "/invite");
+        break;
+      case 3:
+        navigate(context, "/search");
         break;
     }
   }
@@ -48,12 +51,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
           label: 'Map',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Favorite',
+          icon: Icon(Icons.group),
+          label: 'Friends',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'About',
+          icon: Icon(Icons.email_outlined),
+          label: 'Invite',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: 'Search',
         ),
       ],
       onTap: _onItemTapped,

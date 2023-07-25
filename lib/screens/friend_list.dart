@@ -1,5 +1,15 @@
+import 'package:flutter/material.dart';
 
-//Display friends, + their city, coordinates(Optional)
-//Option to delete friends, send request to DB to delete user
+class FriendListScreen extends StatefulWidget {
+  const FriendListScreen({super.key});
 
-//If nofriends, display, no friends at the moment move to Search page
+  @override
+  State<FriendListScreen> createState() => _FriendListScreenState();
+}
+
+class _FriendListScreenState extends State<FriendListScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Text("friend list");
+  }
+}

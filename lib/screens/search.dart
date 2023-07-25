@@ -1,5 +1,15 @@
+import 'package:flutter/material.dart';
 
-//Search page, where users can search other users and see if anyone has invited them.
-//People are displayed in the list with buttons on side, accept/deny or send friend request
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
-//Search by email
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  @override
+  Widget build(BuildContext context) {
+  return const Text("searchScreen :)");
+  }
+}

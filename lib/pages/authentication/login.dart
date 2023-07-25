@@ -147,7 +147,7 @@ class _AddNoteState extends State<LogIn> {
                           //! BE Check DB if correct, navigate to friend list page, if not, display error
                           // widget.db.addNote(
                           //     _titleController.text, _descController.text);
-                          // navigate(context, "/friend-list");
+                          navigate(context, "/friend-list");
                         } else {
                           debugPrint("Invalid");
                           setState(() {});

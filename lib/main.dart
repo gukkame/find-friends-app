@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kahoot/screens/authentication/login.dart';
+import 'package:kahoot/pages/authentication/login.dart';
+import 'package:kahoot/pages/friend_list_page.dart';
+import 'package:kahoot/pages/invites.dart';
+import 'package:kahoot/pages/map.dart';
+import 'package:kahoot/pages/search.dart';
 
-import 'screens/authentication/signup.dart';
+import 'pages/authentication/signup.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,18 +19,16 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Map Markers',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
-      
+      // initialRoute: '/login',
+      initialRoute: '/map',
       routes: {
         '/login': (context) => LogIn(title: 'kahoot'),
         '/signup': (context) => SignUp(),
-        // '/friend-list': (context) => FavoritePage(),
-        // '/search': (context) => FavoritePage(),
+        '/friend-list': (context) => const FriendListPage(),
+        '/search': (context) => SearchPage(),
+        '/map': (context) => MapPage(),
+        '/invite': (context) => InvitePage(),
         // '/invites': (context) => FavoritePage(),
-        // '/map': (context) => const Info(
-        //       title: '',
-        //       about: about,
-        //     ),
       },
     );
   }

@@ -1,3 +1,15 @@
+import 'package:flutter/material.dart';
 
-//Display map with friend locations on the map
+class MapScreen extends StatefulWidget {
+  const MapScreen({super.key});
 
+  @override
+  State<MapScreen> createState() => _MapState();
+}
+
+class _MapState extends State<MapScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Text("MapScreen screen");
+  }
+}
