@@ -24,3 +24,13 @@ final themeColors = ThemeData(
     colorScheme: ColorScheme.fromSwatch().copyWith(
   primary: primeColor,
 ));
+const errorGradient = LinearGradient(
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  colors: [Color.fromARGB(255, 183, 28, 28), Color.fromARGB(255, 245, 104, 53)],
+);
+const correctGradient = LinearGradient(
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  colors: [Colors.green, Color.fromARGB(255, 191, 213, 129)],
+);
