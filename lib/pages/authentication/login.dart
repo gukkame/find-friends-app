@@ -34,7 +34,7 @@ class _AddNoteState extends State<LogIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   BorderColor titleCheck = BorderColor.neutral;
   BorderColor descCheck = BorderColor.neutral;
-
+  bool isPasswordCorrect = false;
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
@@ -110,6 +110,9 @@ class _AddNoteState extends State<LogIn> {
                           autocorrect: false,
                           controller: _descController,
                           decoration: InputDecoration(
+                              errorText: isPasswordCorrect
+                                  ? 'Email address is already registered'
+                                  : null,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               hintText: "Password",
@@ -142,11 +145,15 @@ class _AddNoteState extends State<LogIn> {
                   TextButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          setState(() {});
+                          setState(() {
+                          });
                           //! BE Check DB if correct, navigate to friend list page, if not, display error
+                            _titleController.text = " ";
+                          isPasswordCorrect = true;
+                          descCheck = BorderColor.error;
                           // widget.db.addNote(
                           //     _titleController.text, _descController.text);
-                          navigate(context, "/friend-list");
+                          // navigate(context, "/friend-list");
                         } else {
                           debugPrint("Invalid");
                           setState(() {});

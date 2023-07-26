@@ -5,12 +5,13 @@
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:kahoot/helpers/userInfo.dart';
 import 'package:kahoot/user_location_permission.dart';
-
-import '../helpers/place.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
+
+  set tappedMarker2(bool tappedMarker2) {}
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -18,25 +19,30 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng currentLocation = const LatLng(59.3530117, 27.4133083);
-  List<Place> favLocations = [];
+  List<Location> favLocations = [
+    Location(username: "ajjjj", lat: 59.31, lng: 27.1)
+  ];
   late GoogleMapController mapController;
   var tappedOnMarker = false;
 
+  // set tappedMarker2(bool isTapped) => tappedOnMarker;
+
+  void test() {
+    print(" dw;");
+  }
+
   var addToFav = false;
 
-  late Place lastTappedMarker = Place(username: 'ds', lat: 58.31, lng: 27.1);
-  // final dataStorage = DataStorage();
+  late Location lastTappedMarker =
+      Location(username: 'ds', lat: 58.31, lng: 27.1);
+
   CameraPosition camera =
       const CameraPosition(target: LatLng(59.3530117, 27.4133083), zoom: 12);
 
   void _onMapCreated(GoogleMapController controller) async {
-    // favLocations = await dataStorage.getDataFromJSON();
-    // setState(() {
-    //   favLocations = favLocations;
-    // });
-    setState(() {
-      mapController = controller;
-    });
+    mapController = controller;
+    print("onmapcreated");
+    setState(() {});
   }
 
   // Future<void> _onTapMap(LatLng latLng) async {
@@ -53,10 +59,10 @@ class _MapScreenState extends State<MapScreen> {
   //   });
   // }
 
-  void updateLocation(Place place) {
+  void updateLocation(Location Location) {
     setState(() {
-      lastTappedMarker = place;
-      currentLocation = LatLng(place.lat!, place.lng!);
+      lastTappedMarker = Location;
+      currentLocation = LatLng(Location.lat!, Location.lng!);
       tappedOnMarker = true;
       mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -65,6 +71,19 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ));
     });
+  }
+
+  void markerPressed(Location location) {
+    setState(() {
+      tappedOnMarker = true;
+      lastTappedMarker = location;
+    });
+    return print(" Marker Pressed :)");
+  }
+
+  Set<Marker> getMarkers() {
+    var markers = convertUserInfosToMarkers(favLocations, markerPressed);
+    return markers;
   }
 
   @override
@@ -90,7 +109,7 @@ class _MapScreenState extends State<MapScreen> {
               mapType: MapType.normal,
               myLocationEnabled: true,
               compassEnabled: true,
-              // markers: convertPlacesToMarkers(favLocations),
+              markers: getMarkers(),
             ),
           ),
           Positioned(
@@ -106,7 +125,9 @@ class _MapScreenState extends State<MapScreen> {
                   if (tappedOnMarker == true) Text(lastTappedMarker.username),
                   ElevatedButton.icon(
                       onPressed: () {
-                        tappedOnMarker = false;
+                        setState(() {
+                          tappedOnMarker = false;
+                        });
                       },
                       icon: const Icon(Icons.close),
                       label: const Text(''))
