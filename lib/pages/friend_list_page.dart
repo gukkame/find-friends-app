@@ -20,7 +20,7 @@ class _FriendListPageState extends State<FriendListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "Friends List"),
-      body: FriendListScreen(),
+      body: const FriendListScreen(),
       bottomNavigationBar: BottomNavBar(
         index:1 ,
       ),

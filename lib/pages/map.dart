@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../components/app_bar.dart';
 import '../components/bottom_nav_bar.dart';
 import '../screens/map.dart';
 
@@ -19,7 +18,7 @@ class _MapPageState extends State<MapPage> {
    Widget build(BuildContext context) {
     return Scaffold(
       // appBar:  CustomAppBar(title: "Friends List"),
-      body: MapScreen(),
+      body: const MapScreen(),
       bottomNavigationBar: BottomNavBar(
         index: 0,
       ),

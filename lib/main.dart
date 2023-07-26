@@ -25,9 +25,9 @@ class MainApp extends StatelessWidget {
         '/login': (context) => LogIn(title: 'kahoot'),
         '/signup': (context) => SignUp(),
         '/friend-list': (context) => const FriendListPage(),
-        '/search': (context) => SearchPage(),
-        '/map': (context) => MapPage(),
-        '/invite': (context) => InvitePage(),
+        '/search': (context) => const SearchPage(),
+        '/map': (context) => const MapPage(),
+        '/invite': (context) => const InvitePage(),
         // '/invites': (context) => FavoritePage(),
       },
     );

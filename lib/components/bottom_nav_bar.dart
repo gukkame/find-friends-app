@@ -41,10 +41,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
       currentIndex: _selectedIndex, //New
       type: BottomNavigationBarType.shifting,
       selectedFontSize: 20,
-      selectedIconTheme: IconThemeData(color: primeColor),
+      selectedIconTheme: const IconThemeData(color: primeColor),
       selectedItemColor: primeColor,
       unselectedItemColor: Colors.grey,
-      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.map),
