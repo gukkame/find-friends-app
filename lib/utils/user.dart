@@ -14,13 +14,13 @@ class User {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       email = email;
-      name = await UserApi().getUsername(email: email) as String;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        return 'Wrong password provided for that user.';
+      String? username = await UserApi().getUsername(email: email);
+      if (username == null) {
+        return "Unable to get the username from the database";
       }
+      name = username;
+    } on FirebaseAuthException catch (e) {
+      return e.code;
     } catch (e) {
       return "Unknown error: ${e.toString()}";
     }
@@ -43,15 +43,7 @@ class User {
           .registerNewUser(email: email, name: name, password: password);
       if (!resp) return "Internal server error. Please contact support.";
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return 'The password is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        return 'An account already exists for this email.';
-      } else if (e.code == 'invalid-email') {
-        return 'Invalid email address';
-      } else if (e.code == 'operation-not-allowed') {
-        return 'Internal server error, please contact support. Error code: ${e.code}';
-      }
+      return e.code;
     } catch (e) {
       return "Unknown error: ${e.toString()}";
     }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../api/user_api.dart';
 import '../../provider/get_provider.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
@@ -9,15 +7,13 @@ import '../../utils/user.dart';
 import '../../navigation.dart';
 
 class SignUp extends StatefulWidget {
-  var user = User();
-  var api = UserApi();
-  late double _scaffoldBorderRadius;
+  final user = User();
+  final double _scaffoldBorderRadius;
 
   get borderRadius => _scaffoldBorderRadius;
 
-  SignUp({super.key, double scaffoldBorderRadius = 20.0}) {
-    _scaffoldBorderRadius = scaffoldBorderRadius;
-  }
+  SignUp({super.key, double scaffoldBorderRadius = 20.0})
+      : _scaffoldBorderRadius = scaffoldBorderRadius;
 
   @override
   State<SignUp> createState() => _AddNoteState();
@@ -36,6 +32,7 @@ class _AddNoteState extends State<SignUp> {
   BorderColor emailCheck = BorderColor.neutral;
   BorderColor passCheck = BorderColor.neutral;
   BorderColor pass2Check = BorderColor.neutral;
+  bool _submitLock = false;
 
   Widget _createInputField(
     String hintText,
@@ -127,7 +124,7 @@ class _AddNoteState extends State<SignUp> {
 
   Widget get _submitButton {
     return TextButton(
-        onPressed: _onSubmit,
+        onPressed: _submitLock ? () {} : _onSubmit,
         child: Container(
           decoration: BoxDecoration(
               gradient: primeGradient,
@@ -192,11 +189,13 @@ class _AddNoteState extends State<SignUp> {
   void _onSubmit() async {
     if (_formKey.currentState!.validate()) {
       _removeAllNegativeCheckers();
-      setState(() => _loadingText = "Processing data...");
+      setState(() {
+        _loadingText = "Processing data...";
+        _submitLock = true;
+      });
       var name = _usernameController.value.text;
       var email = _emailController.value.text;
       var password = _passwordController.value.text;
-
       String? resp = await widget.user.registerUser(
         name: name,
         email: email,
@@ -205,33 +204,43 @@ class _AddNoteState extends State<SignUp> {
       if (resp == null) {
         _saveUser();
       } else {
+        setState(() {
+          _loadingText = null;
+          _submitLock = false;
+        });
         _handleDBRejection(resp);
-        setState(() => _loadingText = null);
+        setState(() => {});
       }
     } else {
       debugPrint("Invalid");
-      setState(() => _loadingText = null);
+      setState(() {
+        _loadingText = null;
+        _submitLock = false;
+      });
     }
   }
 
   void _handleDBRejection(String msg) {
     switch (msg) {
-      case 'The password is too weak.':
+      case 'weak-password':
         passCheck = BorderColor.error;
         pass2Check = BorderColor.error;
-        _passErrMsg = msg;
+        _passErrMsg = 'Password is too weak.';
         break;
-      case 'An account already exists for this email.':
-      case 'Invalid email address':
+      case 'email-already-in-use':
         emailCheck = BorderColor.error;
-        _emailErrMsg = msg;
+        _emailErrMsg = 'Account already exists with this email.';
+      case 'invalid-email':
+        emailCheck = BorderColor.error;
+        _emailErrMsg = 'Invalid email address';
         break;
       default:
+        _loadingText =
+            "Internal server error. Please contact support or try again.";
         usernameCheck = BorderColor.error;
         emailCheck = BorderColor.error;
         passCheck = BorderColor.error;
         pass2Check = BorderColor.error;
-        debugPrint(msg);
     }
   }
 
@@ -244,6 +253,7 @@ class _AddNoteState extends State<SignUp> {
   void _removeAllNegativeCheckers() {
     _passErrMsg = null;
     _emailErrMsg = null;
+    _loadingText = null;
     usernameCheck = BorderColor.neutral;
     emailCheck = BorderColor.neutral;
     passCheck = BorderColor.neutral;
@@ -253,12 +263,14 @@ class _AddNoteState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
+      title: "Kahoot",
       rounding: widget.borderRadius,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Form(
-            key: _formKey,
-            child: Center(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -288,7 +300,9 @@ class _AddNoteState extends State<SignUp> {
                   _submitButton,
                 ],
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

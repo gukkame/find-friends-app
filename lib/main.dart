@@ -2,6 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:kahoot/screens/authentication/login.dart';
+
+import 'screens/authentication/signup.dart';
+
 import 'provider/user_provider.dart';
 import 'screens/authentication/login.dart';
 import 'screens/authentication/signup.dart';
