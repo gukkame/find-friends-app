@@ -13,6 +13,16 @@ class UserApi extends Api {
         path: email,
         data: {"email": email, "name": name},
       );
+      await write(
+        collection: "friends",
+        path: email,
+        data: {"friends": {}, "outbound": {}, "inbound": {}},
+      );
+      await write(
+        collection: "locations",
+        path: email,
+        data: {"lat": 0, "lng": 0},
+      );
       return true;
     } catch (e) {
       debugPrint(e.toString());

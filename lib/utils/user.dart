@@ -38,8 +38,10 @@ class User {
       );
       email = email;
       name = name;
-      await UserApi()
+
+      var resp = await UserApi()
           .registerNewUser(email: email, name: name, password: password);
+      if (!resp) return "Internal server error. Please contact support.";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return 'The password is too weak.';
