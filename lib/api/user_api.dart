@@ -1,18 +1,21 @@
+import 'package:flutter/cupertino.dart';
+
 import 'api.dart';
 
 class UserApi extends Api {
   Future<bool> registerNewUser(
-      {
-      required String email,
+      {required String email,
       required String name,
       required String password}) async {
     try {
       await write(
-          collection: "users",
-          path: email,
-          data: {"email": email, "name": name});
+        collection: "users",
+        path: email,
+        data: {"email": email, "name": name},
+      );
       return true;
     } catch (e) {
+      debugPrint(e.toString());
       return false;
     }
   }

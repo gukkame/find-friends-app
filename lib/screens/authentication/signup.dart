@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../api/user_api.dart';
 import '../../provider/get_provider.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
@@ -9,6 +10,7 @@ import '../../navigation.dart';
 
 class SignUp extends StatefulWidget {
   var user = User();
+  var api = UserApi();
   late double _scaffoldBorderRadius;
 
   get borderRadius => _scaffoldBorderRadius;
@@ -29,6 +31,7 @@ class _AddNoteState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? _passErrMsg;
   String? _emailErrMsg;
+  String? _loadingText;
   BorderColor usernameCheck = BorderColor.neutral;
   BorderColor emailCheck = BorderColor.neutral;
   BorderColor passCheck = BorderColor.neutral;
@@ -98,6 +101,18 @@ class _AddNoteState extends State<SignUp> {
         _validatePassword2Field,
         obscureText: true,
       );
+
+  Widget get _loading {
+    return _loadingText == null
+        ? const SizedBox.shrink()
+        : Text(
+            _loadingText as String,
+            style: const TextStyle(
+              color: primeColor,
+              fontSize: 17,
+            ),
+          );
+  }
 
   Widget get _redirectLoginButton {
     return InkWell(
@@ -176,20 +191,26 @@ class _AddNoteState extends State<SignUp> {
 
   void _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {});
-      var resp = await widget.user.registerUser(
-          name: _usernameController.value.text,
-          email: _emailController.value.text,
-          password: _passwordController.value.text);
+      _removeAllNegativeCheckers();
+      setState(() => _loadingText = "Processing data...");
+      var name = _usernameController.value.text;
+      var email = _emailController.value.text;
+      var password = _passwordController.value.text;
+
+      String? resp = await widget.user.registerUser(
+        name: name,
+        email: email,
+        password: password,
+      );
       if (resp == null) {
         _saveUser();
       } else {
         _handleDBRejection(resp);
-        setState(() {});
+        setState(() => _loadingText = null);
       }
     } else {
       debugPrint("Invalid");
-      setState(() {});
+      setState(() => _loadingText = null);
     }
   }
 
@@ -215,8 +236,18 @@ class _AddNoteState extends State<SignUp> {
   }
 
   void _saveUser() {
+    debugPrint("User registered successfully! redirecting...");
     ProviderManager().setUser(context, widget.user);
     navigate(context, "/map");
+  }
+
+  void _removeAllNegativeCheckers() {
+    _passErrMsg = null;
+    _emailErrMsg = null;
+    usernameCheck = BorderColor.neutral;
+    emailCheck = BorderColor.neutral;
+    passCheck = BorderColor.neutral;
+    pass2Check = BorderColor.neutral;
   }
 
   @override
@@ -249,6 +280,8 @@ class _AddNoteState extends State<SignUp> {
                   _passwordField,
                   const SizedBox(height: 20),
                   _password2Field,
+                  SizedBox(height: _loadingText != null ? 20 : 0),
+                  _loading,
                   const SizedBox(height: 20),
                   _redirectLoginButton,
                   const SizedBox(height: 30),
