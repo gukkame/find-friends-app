@@ -1,22 +1,25 @@
 Collection users
- document name
-    - name:     String (2 < name.length < 17)
+ document email
+    - name:     String
     - email:    String
-    - password: String
 
-Collection friends
- document name
+Collection locations
+ document email
     - lat:      double
     - lng:      double 
-    - friend:   List<String> (name) 
-    - outbound: List<String> (name) 
-    - inbound:  List<String> (name) 
 
-!NB the value of the username is used in as the keys to the documents 
+Collection friends
+ document email
+    - friend:   Map<String, String> {email: name} 
+    - outbound: Map<String, String> {email: name} 
+    - inbound:  Map<String, String> {email: name} 
+
+//* The datatype change was made so that when a user queries the friends collection,
+//* They get all of the relevant info needed. 
 
 
 Dictionary
     - users => name: username
-    - friends => friends: list of friends
-    - friends => outbound: list of friend request sent BY the user
-    - friends => inbound: list of friend request sent TO the user
+    - friends => friends: map of friends
+    - friends => outbound: map of friend request sent BY the user
+    - friends => inbound: map of friend request sent TO the user
