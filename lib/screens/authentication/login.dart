@@ -213,35 +213,38 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: widget.title,
-      rounding: widget.scaffoldBorderRadius,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-            key: _formKey,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _title,
-                  const SizedBox(
-                    height: 28,
+        title: widget.title,
+        rounding: widget.scaffoldBorderRadius,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child:  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _title,
+                      const SizedBox(
+                        height: 28,
+                      ),
+                      _emailField,
+                      const SizedBox(height: 20),
+                      _passField,
+                      SizedBox(height: _loadingText != null ? 20 : 0),
+                      _loading,
+                      const SizedBox(height: 20),
+                      _redirectButton,
+                      const SizedBox(height: 30),
+                      _submitButton,
+                    ],
                   ),
-                  _emailField,
-                  const SizedBox(height: 20),
-                  _passField,
-                  SizedBox(height: _loadingText != null ? 20 : 0),
-                  _loading,
-                  const SizedBox(height: 20),
-                  _redirectButton,
-                  const SizedBox(height: 30),
-                  _submitButton,
-                ],
+                ),
               ),
-            )),
-      ),
-    );
+            ),
+          ),
+        );
   }
 }
 

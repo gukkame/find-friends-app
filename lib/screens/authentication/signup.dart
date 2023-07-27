@@ -267,9 +267,10 @@ class _AddNoteState extends State<SignUp> {
       rounding: widget.borderRadius,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Form(
-            key: _formKey,
-            child: Center(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -299,7 +300,9 @@ class _AddNoteState extends State<SignUp> {
                   _submitButton,
                 ],
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
