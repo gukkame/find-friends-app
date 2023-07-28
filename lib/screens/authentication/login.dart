@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kahoot/provider/get_provider.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
 import '../../utils/user.dart';
@@ -24,6 +25,18 @@ class _LogInState extends State<LogIn> {
   String? _passErr;
   String? _loadingText;
   bool _submitLock = false;
+
+  @override
+  void initState() {
+    widget.user
+        .signInUser(email: "test@gmail.com", password: "pass123")
+        .then((value) {
+      _setUser();
+      redirect();
+    });
+    super.initState();
+  }
+
   Widget _createInputField(
     String hintText,
     BorderColor checker,
@@ -163,6 +176,7 @@ class _LogInState extends State<LogIn> {
         _handleDBRejection(resp);
         setState(() {});
       } else {
+        _setUser();
         redirect();
       }
     } else {
@@ -172,6 +186,10 @@ class _LogInState extends State<LogIn> {
         _submitLock = false;
       });
     }
+  }
+
+  void _setUser() {
+    ProviderManager().setUser(context, widget.user);
   }
 
   void _removeAllNegativeCheckers() {

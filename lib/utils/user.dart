@@ -13,7 +13,7 @@ class User {
     try {
       credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      email = email;
+      this.email = email;
       String? username = await UserApi().getUsername(email: email);
       if (username == null) {
         return "Unable to get the username from the database";
@@ -36,8 +36,8 @@ class User {
         email: email,
         password: password,
       );
-      email = email;
-      name = name;
+      this.email = email;
+      this.name = name;
 
       var resp = await UserApi()
           .registerNewUser(email: email, name: name, password: password);

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../utils/user.dart';
 import 'api.dart';
 
 class UserApi extends Api {
@@ -38,5 +39,11 @@ class UserApi extends Api {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<Map<String, dynamic>> getFriends(User user) async {
+    var resp = await readPath(collection: "friends", path: user.email);
+    return (resp.data() as Map<String, dynamic>)["friends"]
+        as Map<String, dynamic>;
   }
 }
