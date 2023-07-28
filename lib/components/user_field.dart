@@ -21,7 +21,7 @@ class UserField extends StatelessWidget {
   });
 
   void _sendFriendRequest() async {
-    var resp = await SearchApi().sendFriendRequest(user, email);
+    var resp = await SearchApi().sendFriendRequest(user, email, username);
     if (resp != null) {
       setErrorState(resp);
     } else {

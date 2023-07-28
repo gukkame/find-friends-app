@@ -19,6 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<String?>? user;
   Widget _infoTextWidget = const SizedBox.shrink();
   bool _searchLock = false;
+  String _searchedEmail = "";
 
   Widget get _searchField {
     return Expanded(
@@ -47,11 +48,11 @@ class _SearchScreenState extends State<SearchScreen> {
     return Expanded(
       flex: 1,
       child: TextButton(
+          onPressed: _searchLock ? () {} : _onSearchSubmit,
           style: TextButton.styleFrom(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               alignment: Alignment.centerRight),
-          onPressed: _onSearchSubmit,
           child: Container(
             decoration: BoxDecoration(
                 gradient: primeGradient,
@@ -72,21 +73,22 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget get _userWidget {
     return FutureBuilder(
-        future: user,
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              var data = snapshot.data as String;
-              return _userFound(data);
-            } else {
-              return _userNotFound;
-            }
-          } else if (user == null) {
-            return _searchInfoWidget;
+      future: user,
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            var data = snapshot.data as String;
+            return _userFound(data);
           } else {
-            return _loading;
+            return _userNotFound;
           }
-        }));
+        } else if (user == null) {
+          return _searchInfoWidget;
+        } else {
+          return _loading;
+        }
+      }),
+    );
   }
 
   void _onSearchSubmit() async {
@@ -109,6 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _userFound(String data) {
     _setInfoWidget("User found!");
+    _searchedEmail = _searchController.value.text;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(children: [
@@ -116,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
         UserField(
           user: ProviderManager().getUser(context),
           username: data,
-          email: _searchController.value.text,
+          email: _searchedEmail,
           resetState: _resetState,
           setErrorState: _setErrorState,
         ),
@@ -130,17 +133,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget get _searchInfoWidget {
-    return const Center(
-      child: Text(
-        "search by email",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: primeColorTrans,
-          fontSize: 25,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
+    _setInfoWidget("Search by email");
+    return const SizedBox.shrink();
   }
 
   Widget get _loading {
