@@ -15,7 +15,7 @@ class _InvitePageState extends State<InvitePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Friends List"),
+      appBar: AppBar(title: const Text("Invites")),
       body: const InviteScreen(),
       bottomNavigationBar: BottomNavBar(
         index: 2,

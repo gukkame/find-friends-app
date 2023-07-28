@@ -40,13 +40,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
           ),
           actions: [
             ..._actions,
-            IconButton(
-                onPressed: () => navigate(context, "/add"),
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 30.0,
-                )),
+            // IconButton(
+            //     onPressed: () => navigate(context, "/add"),
+            //     icon: const Icon(
+            //       Icons.add,
+            //       color: Colors.white,
+            //       size: 30.0,
+            //     )),
             const SizedBox(width:15)
           ],
         ));
