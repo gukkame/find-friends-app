@@ -1,28 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kahoot/navigation.dart';
 
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
+import '../../navigation.dart';
 import '../../utils/colors.dart';
 
 class LogIn extends StatefulWidget {
-  // late DB _db;
-  late String _title;
-  late double _scaffoldBorderRadius;
-
-  // get db => _db;
-  get title => _title;
-  get borderRadius => _scaffoldBorderRadius;
-
-  LogIn(
-      {super.key,
-      // required DB db,
-      required String title,
-      double scaffoldBorderRadius = 20.0}) {
-    // _db = db;
-    _title = title;
-    _scaffoldBorderRadius = scaffoldBorderRadius;
-  }
+  const LogIn({super.key});
 
   @override
   State<LogIn> createState() => _AddNoteState();
@@ -38,8 +22,8 @@ class _AddNoteState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: widget.title,
-      rounding: widget.borderRadius,
+      title: "Kaquiz",
+      rounding: 20,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -134,7 +118,7 @@ class _AddNoteState extends State<LogIn> {
                   InkWell(
                     onTap: () => navigate(context, "/signup"),
                     child: const Text(
-                      "Dont have an account? Click here!",
+                      "Don't have an account? Click here!",
                       style: TextStyle(
                           fontSize: 14,
                           color: primeColor,
@@ -145,10 +129,9 @@ class _AddNoteState extends State<LogIn> {
                   TextButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          setState(() {
-                          });
+                          setState(() {});
                           //! BE Check DB if correct, navigate to friend list page, if not, display error
-                            _titleController.text = " ";
+                          _titleController.text = " ";
                           isPasswordCorrect = true;
                           descCheck = BorderColor.error;
                           // widget.db.addNote(

@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kahoot/navigation.dart';
 
+import '../../navigation.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
 import '../../utils/colors.dart';
 
 class SignUp extends StatefulWidget {
-  // late DB _db;
-  late double _scaffoldBorderRadius;
-
-  // get db => _db;
-  get borderRadius => _scaffoldBorderRadius;
-
-  SignUp(
-      {super.key,
-      // required DB db,
-      double scaffoldBorderRadius = 20.0}) {
-    // _db = db;
-    _scaffoldBorderRadius = scaffoldBorderRadius;
-  }
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _AddNoteState();
@@ -38,7 +26,8 @@ class _AddNoteState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      rounding: widget.borderRadius,
+      title: "Kaquiz",
+      rounding: 20.0,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -189,7 +178,7 @@ class _AddNoteState extends State<SignUp> {
                                 value.isEmpty ||
                                 value != _passwordController.value.text) {
                               pass2Check = BorderColor.error;
-                              return "Password incorect or doesn't match";
+                              return "Password incorrect or doesn't match";
                             } else {
                               pass2Check = BorderColor.correct;
                               return null;

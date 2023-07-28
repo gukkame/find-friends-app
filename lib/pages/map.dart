@@ -16,9 +16,9 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
    Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       // appBar:  CustomAppBar(title: "Friends List"),
-      body: const MapScreen(),
+      body: MapScreen(),
       bottomNavigationBar: BottomNavBar(
         index: 0,
       ),

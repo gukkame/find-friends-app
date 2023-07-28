@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../provider/get_provider.dart';
+import '../../provider/provider_manager.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
 import '../../utils/colors.dart';
@@ -255,7 +255,7 @@ class _AddNoteState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: "Kahoot",
+      title: "Kaquiz",
       rounding: widget.borderRadius,
       child: Padding(
         padding: const EdgeInsets.all(20.0),

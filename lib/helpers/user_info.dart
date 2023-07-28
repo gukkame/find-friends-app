@@ -1,7 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../screens/map.dart';
-
 class Location {
   final String username;
   final double? lat;
@@ -20,7 +18,6 @@ class Location {
       position: LatLng(lat!, lng!),
       infoWindow: InfoWindow(
         title: username,
-        // snippet: description,
       ),
     );
   }
@@ -35,10 +32,10 @@ class Location {
 }
 
 Set<Marker> convertUserInfosToMarkers(
-    List<Location> UserInfos, void Function(Location) onMarkerTap) {
+    List<Location> userInfos, void Function(Location) onMarkerTap) {
   final markers = <Marker>{};
-  for (var Location in UserInfos) {
-    markers.add(Location.toMarker(onMarkerTap));
+  for (var location in userInfos) {
+    markers.add(location.toMarker(onMarkerTap));
   }
   return markers;
 }

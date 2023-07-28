@@ -1,8 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 
-// Requests permisions and return current position
+// Requests permissions and return current position
 class UserLocation {
-  // requests permisions and return current position
+  // requests permissions and return current position
   Future<Position> getUserCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;

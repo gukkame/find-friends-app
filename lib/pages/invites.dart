@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kahoot/screens/invites.dart';
 
-import '../components/app_bar.dart';
+import '../../screens/invites.dart';
 import '../components/bottom_nav_bar.dart';
 
 class InvitePage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _InvitePageState extends State<InvitePage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Invites")),
       body: const InviteScreen(),
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: const BottomNavBar(
         index: 2,
       ),
     );

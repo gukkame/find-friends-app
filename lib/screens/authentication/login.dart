@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaquiz/provider/provider_manager.dart';
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
 import '../../utils/user.dart';
@@ -7,9 +8,7 @@ import '../../navigation.dart';
 
 class LogIn extends StatefulWidget {
   final User user = User();
-  final String title = "Kahoot";
-  final double scaffoldBorderRadius;
-  LogIn({super.key, this.scaffoldBorderRadius = 20.0});
+  LogIn({super.key});
   @override
   State<LogIn> createState() => _LogInState();
 }
@@ -24,6 +23,22 @@ class _LogInState extends State<LogIn> {
   String? _passErr;
   String? _loadingText;
   bool _submitLock = false;
+
+  //! TEMP logging in with an existing account for testing
+  @override
+  void initState() {
+    widget.user
+        .signInUser(
+      email: "test@gmail.com",
+      password: "pass123",
+    )
+        .then((value) {
+      _setUser();
+      _redirect();
+    },);
+    super.initState();
+  }
+
   Widget _createInputField(
     String hintText,
     BorderColor checker,
@@ -163,7 +178,8 @@ class _LogInState extends State<LogIn> {
         _handleDBRejection(resp);
         setState(() {});
       } else {
-        redirect();
+        _setUser();
+        _redirect();
       }
     } else {
       debugPrint("Invalid");
@@ -200,7 +216,11 @@ class _LogInState extends State<LogIn> {
     }
   }
 
-  void redirect() {
+  void _setUser() {
+    ProviderManager().setUser(context, widget.user);
+  }
+
+  void _redirect() {
     debugPrint("logged in successfully! redirecting...");
     navigate(context, "/map");
   }
@@ -208,8 +228,8 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-      title: widget.title,
-      rounding: widget.scaffoldBorderRadius,
+      title: "Kaquiz",
+      rounding: 20,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kahoot/pages/friend_list_page.dart';
+import '../pages/friend_list_page.dart';
 
 class FriendListScreen extends StatefulWidget {
-  FriendListScreen({super.key, required NoteState state});
-  late NoteState state;
+  final NoteState state;
+  const FriendListScreen({super.key, required this.state});
   @override
   State<FriendListScreen> createState() => _FriendListScreenState();
 }
@@ -20,11 +20,9 @@ class _FriendListScreenState extends State<FriendListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(children: []),
-      ),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: ListView(children: const []),
     );
   }
 }

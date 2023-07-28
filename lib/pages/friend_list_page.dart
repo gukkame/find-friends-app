@@ -1,13 +1,13 @@
-//Display friends, + their city, coordinates(Optional)
-//Option to delete friends, send request to DB to delete user
-
-//If nofriends, display, no friends at the moment move to Search page
 import 'package:flutter/material.dart';
-import 'package:kahoot/provider/get_provider.dart';
-import 'package:kahoot/screens/friend_list.dart';
 
 import '../components/app_bar.dart';
 import '../components/bottom_nav_bar.dart';
+import '../screens/friend_list.dart';
+
+//Display friends, + their city, coordinates(Optional)
+//Option to delete friends, send request to DB to delete user
+
+//If no friends, display, no friends at the moment move to Search page
 
 class FriendListPage extends StatefulWidget {
   const FriendListPage({super.key});
@@ -20,9 +20,7 @@ class _FriendListPageState extends State<FriendListPage> {
   // List<Data> notes = [];
   // List<Data> notes = ProviderManager().getUser(context);
 
-
-
-  NoteState state = NoteState.None;
+  NoteState state = NoteState.none;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,18 +32,16 @@ class _FriendListPageState extends State<FriendListPage> {
             ),
             onPressed: () {
               var newState =
-                  state != NoteState.Delete ? NoteState.Delete : NoteState.None;
+                  state != NoteState.delete ? NoteState.delete : NoteState.none;
               setState(() {
                 state = newState;
               });
             }),
       ]),
       body: FriendListScreen(state: state),
-      bottomNavigationBar: BottomNavBar(
-        index: 1,
-      ),
+      bottomNavigationBar: const BottomNavBar(index: 1),
     );
   }
 }
 
-enum NoteState { Edit, Delete, None }
+enum NoteState { edit, delete, none }

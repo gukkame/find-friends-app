@@ -31,7 +31,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Map Markers',
         debugShowCheckedModeBanner: false,
-        initialRoute: '/search',
+        initialRoute: '/login',
         routes: {
           '/login': (context) => LogIn(),
           '/signup': (context) => SignUp(),

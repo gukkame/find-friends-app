@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:kahoot/utils/colors.dart';
-
-
-import '../navigation.dart';
+import '../utils/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSize {
   @override
   final Size preferredSize;
   final String title;
-  late List<Widget> _actions;
+  final List<Widget> _actions;
   static const padding = 15;
 
-  CustomAppBar({Key? key, required this.title, List<Widget>? actions})
+  CustomAppBar({super.key, required this.title, List<Widget>? actions})
       : preferredSize = const Size.fromHeight(kToolbarHeight + padding),
-        super(key: key) {
-          _actions = actions ?? [];
-        }
+        _actions = actions ?? [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
             //       color: Colors.white,
             //       size: 30.0,
             //     )),
-            const SizedBox(width:15)
+            const SizedBox(width: 15)
           ],
         ));
   }

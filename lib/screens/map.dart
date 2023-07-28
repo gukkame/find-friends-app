@@ -1,12 +1,13 @@
 //Get map
-//Diplay your location, get your Lat, Long
+//Display your location, get your Lat, Long
 // Gets friends Lat, Long
-// Saves them into markers and diplays on google map
+// Saves them into markers and displays on google map
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:kahoot/helpers/userInfo.dart';
-import 'package:kahoot/user_location_permission.dart';
+
+import '../helpers/user_info.dart';
+import '../user_location_permission.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -20,7 +21,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   LatLng currentLocation = const LatLng(59.3530117, 27.4133083);
   List<Location> favLocations = [
-    Location(username: "ajjjj", lat: 59.31, lng: 27.1)
+    Location(username: "Laura", lat: 59.31, lng: 27.1)
   ];
   late GoogleMapController mapController;
   var tappedOnMarker = false;
@@ -28,7 +29,7 @@ class _MapScreenState extends State<MapScreen> {
   // set tappedMarker2(bool isTapped) => tappedOnMarker;
 
   void test() {
-    print(" dw;");
+    debugPrint(" dw;");
   }
 
   var addToFav = false;
@@ -41,7 +42,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
-    print("onmapcreated");
+    debugPrint("On Map Create");
     setState(() {});
   }
 
@@ -59,10 +60,10 @@ class _MapScreenState extends State<MapScreen> {
   //   });
   // }
 
-  void updateLocation(Location Location) {
+  void updateLocation(Location location) {
     setState(() {
-      lastTappedMarker = Location;
-      currentLocation = LatLng(Location.lat!, Location.lng!);
+      lastTappedMarker = location;
+      currentLocation = LatLng(location.lat!, location.lng!);
       tappedOnMarker = true;
       mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -78,7 +79,7 @@ class _MapScreenState extends State<MapScreen> {
       tappedOnMarker = true;
       lastTappedMarker = location;
     });
-    return print(" Marker Pressed :)");
+    return debugPrint(" Marker Pressed :)");
   }
 
   Set<Marker> getMarkers() {
@@ -92,9 +93,10 @@ class _MapScreenState extends State<MapScreen> {
     userPerm.getUserCurrentLocation().then((value) {
       setState(() {
         currentLocation = LatLng(value.latitude, value.longitude);
-        print(currentLocation);
+        debugPrint("$currentLocation");
       });
     });
+    super.initState();
   }
 
   @override

@@ -4,8 +4,8 @@ import '../navigation.dart';
 import '../utils/colors.dart';
 
 class BottomNavBar extends StatefulWidget {
-  late int index;
-  BottomNavBar({super.key, required this.index});
+  final int index;
+  const BottomNavBar({super.key, required this.index});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
