@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  CustomAppBar(title: "Search"),
+      appBar:  CustomAppBar(title: "Search for friends"),
       body: const SearchScreen(),
       bottomNavigationBar: BottomNavBar(
         index: 3,
