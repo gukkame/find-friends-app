@@ -15,7 +15,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _titleController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late Future<String?> user;
+  Future<String?>? user = null;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Form(
                     key: _formKey,
                     child: TextFormField(
-                      
                       controller: _titleController,
                       decoration: const InputDecoration(
                           contentPadding:
@@ -119,7 +118,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         )),
                         SizedBox(height: 30),
                         UserField(username: data),
-                    
                       ]),
                     );
                   } else {
@@ -134,22 +132,30 @@ class _SearchScreenState extends State<SearchScreen> {
                       textAlign: TextAlign.center,
                     ));
                   }
+                } else if (user == null) {
+                   return const Center(
+                    child: Text(
+                      "search by email",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: primeColorTrans,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  );
                 } else {
                   return const Center(
                     child: Text(
-                      "Loading...",
+                      "loading...",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: primeColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
+                          color: primeColorTrans,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w400),
                     ),
                   );
                 }
               }))
-          // ListView(
-          //   children: [],
-          // )
         ],
       ),
     );
