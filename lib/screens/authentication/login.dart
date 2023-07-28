@@ -29,13 +29,14 @@ class _LogInState extends State<LogIn> {
   String? _loadingText;
   bool _submitLock = false;
 
-
   @override
   void initState() {
-    widget.user.signInUser(email: "test@gmail.com", password: "pass123").then((value) {
+    widget.user
+        .signInUser(email: "test@gmail.com", password: "pass123")
+        .then((value) {
       _saveUser();
       redirect();
-    })
+    });
     super.initState();
   }
 
