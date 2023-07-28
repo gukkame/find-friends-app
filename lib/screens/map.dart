@@ -19,6 +19,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng currentLocation = const LatLng(59.3530117, 27.4133083);
+  //! Locations of friends
   List<Location> favLocations = [
     Location(username: "ajjjj", lat: 59.31, lng: 27.1)
   ];
