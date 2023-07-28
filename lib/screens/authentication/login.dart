@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kahoot/provider/get_provider.dart';
 
 import '../../components/container.dart';
 import '../../components/scaffold.dart';
@@ -27,6 +28,16 @@ class _LogInState extends State<LogIn> {
   String? _passErr;
   String? _loadingText;
   bool _submitLock = false;
+
+
+  @override
+  void initState() {
+    widget.user.signInUser(email: "test@gmail.com", password: "pass123").then((value) {
+      _saveUser();
+      redirect();
+    })
+    super.initState();
+  }
 
   Widget _createInputField(
     String hintText,
@@ -171,6 +182,7 @@ class _LogInState extends State<LogIn> {
         _handleDBRejection(resp);
         setState(() {});
       } else {
+        _saveUser();
         redirect();
       }
     } else {
@@ -180,6 +192,10 @@ class _LogInState extends State<LogIn> {
         _submitLock = false;
       });
     }
+  }
+
+  void _saveUser() {
+    ProviderManager().setUser(context, widget.user);
   }
 
   void _removeAllNegativeCheckers() {
@@ -213,38 +229,38 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return RoundScaffold(
-        title: widget.title,
-        rounding: widget.scaffoldBorderRadius,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child:  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _title,
-                      const SizedBox(
-                        height: 28,
-                      ),
-                      _emailField,
-                      const SizedBox(height: 20),
-                      _passField,
-                      SizedBox(height: _loadingText != null ? 20 : 0),
-                      _loading,
-                      const SizedBox(height: 20),
-                      _redirectButton,
-                      const SizedBox(height: 30),
-                      _submitButton,
-                    ],
+      title: widget.title,
+      rounding: widget.scaffoldBorderRadius,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _title,
+                  const SizedBox(
+                    height: 28,
                   ),
-                ),
+                  _emailField,
+                  const SizedBox(height: 20),
+                  _passField,
+                  SizedBox(height: _loadingText != null ? 20 : 0),
+                  _loading,
+                  const SizedBox(height: 20),
+                  _redirectButton,
+                  const SizedBox(height: 30),
+                  _submitButton,
+                ],
               ),
             ),
           ),
-        );
+        ),
+      ),
+    );
   }
 }
 
