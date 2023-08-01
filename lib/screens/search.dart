@@ -16,10 +16,16 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Future<String?>? user;
+  String? user;
   Widget _infoTextWidget = const SizedBox.shrink();
   bool _searchLock = false;
   String _searchedEmail = "";
+
+  @override
+  void initState() {
+    _setInfoWidget("Search by email");
+    super.initState();
+  }
 
   Widget get _searchField {
     return Expanded(
@@ -71,26 +77,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget get _userWidget {
-    return FutureBuilder(
-      future: user,
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            var data = snapshot.data as String;
-            return _userFound(data);
-          } else {
-            return _userNotFound;
-          }
-        } else if (user == null) {
-          return _searchInfoWidget;
-        } else {
-          return _loading;
-        }
-      }),
-    );
-  }
-
   void _onSearchSubmit() async {
     setState(() => _searchLock = true);
     if (_formKey.currentState!.validate()) {
@@ -98,10 +84,14 @@ class _SearchScreenState extends State<SearchScreen> {
           ProviderManager().getUser(context).email) {
         _setErrorState("Can't add yourself as a friend.");
       } else {
-        user = SearchApi().getUsername(email: _searchController.value.text);
-        setState(() {
-          user = user;
-        });
+        setState(() => _setInfoWidget("Loading..."));
+        user =
+            await SearchApi().getUsername(email: _searchController.value.text);
+        if (user == null) {
+          setState(() {
+            _setErrorState("No user found.");
+          });
+        }
       }
     } else {
       debugPrint("Invalid");
@@ -109,9 +99,33 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() => _searchLock = false);
   }
 
+  Widget get _userWidget {
+    return user != null ? _userFound(user as String) : const SizedBox.shrink();
+
+    // return FutureBuilder(
+    //   future: user,
+    //   builder: ((context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    //       if (snapshot.hasData) {
+    //         var data = snapshot.data as String;
+    //         return _userFound(data);
+    //       } else {
+    //         _setInfoWidget("User not found!");
+    //       }
+    //     } else if (user == null) {
+    //       _setInfoWidget("Search by email");
+    //     } else {
+    //       _setInfoWidget("Loading...");
+    //     }
+    //     Future.delayed(Duration.zero).then((_) => setState(() {}));
+    //   }),
+    // );
+  }
+
   Widget _userFound(String data) {
     _setInfoWidget("User found!");
     _searchedEmail = _searchController.value.text;
+    Future.delayed(Duration.zero).then((_) => setState(() {}));
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(children: [
@@ -127,31 +141,22 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget get _userNotFound {
-    _setInfoWidget("User not found!");
-    return const SizedBox.shrink();
-  }
-
-  Widget get _searchInfoWidget {
-    _setInfoWidget("Search by email");
-    return const SizedBox.shrink();
-  }
-
-  Widget get _loading {
-    _setInfoWidget("Loading...");
-    return const SizedBox.shrink();
-  }
-
   void _resetState() {
     setState(() {
       user = null;
       _searchController.value = TextEditingValue.empty;
     });
+    Future.delayed(Duration.zero).then((value) {
+      _setInfoWidget("Friend request sent!");
+      setState(() {});
+    });
   }
 
   void _setErrorState(String msg) {
     _setInfoWidget(msg);
-    _resetState();
+    setState(() {
+      user = null;
+    });
   }
 
   void _setInfoWidget(String msg) {

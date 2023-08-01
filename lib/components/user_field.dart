@@ -23,7 +23,7 @@ class UserField extends StatelessWidget {
   void _sendFriendRequest() async {
     var resp = await SearchApi().sendFriendRequest(user, email, username);
     if (resp != null) {
-      setErrorState(resp);
+      setErrorState("This user is already your friend or\nyou've already sent them a friend request!");
     } else {
       resetState();
     }
