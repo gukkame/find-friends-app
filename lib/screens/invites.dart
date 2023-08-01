@@ -62,7 +62,7 @@ class _InviteScreenState extends State<InviteScreen> {
               if (inbound && inboundUsers != [])
                 for (var userIn in inboundUsers)
                   UserField(
-                      type: "Accept",
+                      type: "Inbound",
                       user: user,
                       username: userIn.value,
                       email: userIn.key,
@@ -71,7 +71,7 @@ class _InviteScreenState extends State<InviteScreen> {
               else if (!inbound && outboundUsers != [])
                 for (var userOut in outboundUsers)
                   UserField(
-                      type: "Invited",
+                      type: "Outbound",
                       user: user,
                       username: userOut.value,
                       email: userOut.key,
