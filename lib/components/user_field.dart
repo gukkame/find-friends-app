@@ -5,6 +5,7 @@ import '../utils/user.dart';
 import 'container.dart';
 
 class UserField extends StatelessWidget {
+  final String type;
   final User user;
   final String username;
   final String email;
@@ -13,6 +14,7 @@ class UserField extends StatelessWidget {
 
   const UserField({
     super.key,
+    required this.type,
     required this.user,
     required this.username,
     required this.email,
@@ -23,7 +25,8 @@ class UserField extends StatelessWidget {
   void _sendFriendRequest() async {
     var resp = await SearchApi().sendFriendRequest(user, email, username);
     if (resp != null) {
-      setErrorState("This user is already your friend or\nyou've already sent them a friend request!");
+      setErrorState(
+          "This user is already your friend or\nyou've already sent them a friend request!");
     } else {
       resetState();
     }
@@ -47,31 +50,45 @@ class UserField extends StatelessWidget {
                   color: Colors.grey.shade800,
                 ),
               ),
-              TextButton(
-                style: TextButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    alignment: Alignment.centerRight),
-                onPressed: _sendFriendRequest,
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: primeGradient,
-                      borderRadius: BorderRadius.circular(12.0)),
-                  child: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 11.0),
-                    child: Text(
-                      "Add",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
-                    ),
-                  ),
-                ),
-              ),
+              if (type == "Add")
+              _addButton
+              else if (type == "Accept")
+              _acceptButton
+              else if (type == "Invited")
+              _inviteButton
             ],
           )),
+    );
+  }
+  Widget get _acceptButton {
+    return TextButton(onPressed: ()=>{}, child: Text("accept"));
+  }
+  Widget get _inviteButton {
+        return TextButton(onPressed: ()=>{}, child: Text("invite"));
+  }
+
+
+  Widget get _addButton {
+    return TextButton(
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          alignment: Alignment.centerRight),
+      onPressed: _sendFriendRequest,
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: primeGradient, borderRadius: BorderRadius.circular(12.0)),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 11.0),
+          child: Text(
+            "Add",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -131,6 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(children: [
         const SizedBox(height: 30),
         UserField(
+          type: "Add",
           user: ProviderManager().getUser(context),
           username: data,
           email: _searchedEmail,
