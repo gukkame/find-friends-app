@@ -12,7 +12,7 @@ class MenuButton extends StatefulWidget {
 
   final String title;
   final bool pressed;
-  final void Function() switchButtons;
+  final void Function(String) switchButtons;
   @override
   State<MenuButton> createState() => _MenuButtonState();
 }
@@ -24,7 +24,7 @@ class _MenuButtonState extends State<MenuButton> {
   }
 
   void onPressed() {
-    widget.switchButtons();
+    widget.switchButtons(widget.title);
   }
 
   @override

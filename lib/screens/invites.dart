@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kaquiz/api/api.dart';
 import 'package:kaquiz/components/user_field.dart';
 
 import '../components/menu_button.dart';
+import '../provider/provider_manager.dart';
 import '../utils/colors.dart';
 import '../utils/user.dart';
 
@@ -13,30 +15,37 @@ class InviteScreen extends StatefulWidget {
 }
 
 class _InviteScreenState extends State<InviteScreen> {
+  late User user;
+  String errorMSg = '';
   bool inbound = true;
   bool outbound = false;
-  late List<User> inboundUsers;
-  late List<User> outboundUsers;
-  Widget _infoTextWidget = const SizedBox.shrink();
+  List<MapEntry<String, dynamic>> inboundUsers = [];
+  List<MapEntry<String, dynamic>> outboundUsers = [];
 
-  void getInboundReq() {
-    //!get Inbound rquests from db and save to inboundUsers
-  }
-  void getOutboundReq() {
-    //!get Outbound rquests from db and save to outboundUsers
-  }
-
-  void onPressed() {
-    setState(() {
-      inbound = !inbound;
-      outbound = !outbound;
+  Future<void> getInvReq() async {
+    var allData;
+    await Api().readPath(collection: "friends", path: user.email).then((value) {
+      setState(() {
+        allData = value.data();
+      });
     });
+    inboundUsers = allData["inbound"].entries.toList();
+    outboundUsers = allData["outbound"].entries.toList();
+  }
+
+  void onPressed(type) {
+    if (type == "Inbound" && !inbound ||type == "Outbound" && !outbound) {
+      setState(() {
+        inbound = !inbound;
+        outbound = !outbound;
+      });
+    }
   }
 
   @override
   void initState() {
-    getInboundReq();
-    getOutboundReq();
+    user = ProviderManager().getUser(context);
+    getInvReq();
     super.initState();
   }
 
@@ -47,29 +56,29 @@ class _InviteScreenState extends State<InviteScreen> {
       child: Column(
         children: [
           _menu,
-
-          ///===========================
-
-          ListView(
+          const SizedBox(height: 30),
+          Column(
             children: [
-              if (inbound)
-                for (var user in inboundUsers)
+              if (inbound && inboundUsers != [])
+                for (var userIn in inboundUsers)
                   UserField(
                       type: "Accept",
                       user: user,
-                      username: "",
-                      email: "",
+                      username: userIn.value,
+                      email: userIn.key,
                       resetState: () => {},
                       setErrorState: _setErrorState)
-              else
-                for (var user in outboundUsers)
+              else if (!inbound && outboundUsers != [])
+                for (var userOut in outboundUsers)
                   UserField(
                       type: "Invited",
                       user: user,
-                      username: "",
-                      email: "",
+                      username: userOut.value,
+                      email: userOut.key,
                       resetState: () => {},
                       setErrorState: _setErrorState)
+              else
+                _setInfoWidget
             ],
           )
         ],
@@ -90,16 +99,13 @@ class _InviteScreenState extends State<InviteScreen> {
   }
 
   void _setErrorState(String msg) {
-    _setInfoWidget(msg);
-    setState(() {
-      inboundUsers = [];
-    });
+    errorMSg = msg;
   }
 
-  void _setInfoWidget(String msg) {
-    _infoTextWidget = Center(
+  Widget get _setInfoWidget {
+    return Center(
         child: Text(
-      msg,
+      errorMSg,
       style: const TextStyle(
         color: primeColorTrans,
         fontSize: 20,
