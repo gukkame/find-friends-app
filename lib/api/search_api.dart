@@ -12,17 +12,12 @@ class SearchApi extends GeneralApi {
       await update(
         collection: "friends",
         path: email,
-        data: {
-          "inbound": {user.email: user.name},
-        },
+        data: {"inbound.${user.email}": user.name},
       );
       await update(
-        collection: "friends",
-        path: user.email,
-        data: {
-          "outbound": {email: name},
-        },
-      );
+          collection: "friends",
+          path: user.email,
+          data: {"outbound.$email": name});
       return null;
     } catch (e) {
       debugPrint(e.toString());
