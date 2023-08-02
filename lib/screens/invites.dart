@@ -24,15 +24,31 @@ class _InviteScreenState extends State<InviteScreen> {
   List<MapEntry<String, dynamic>> inboundUsers = [];
   List<MapEntry<String, dynamic>> outboundUsers = [];
 
+  @override
+  void initState() {
+    user = ProviderManager().getUser(context);
+    getInvReq();
+    super.initState();
+  }
+
   Future<void> getInvReq() async {
-    var allData;
-    await Api().readPath(collection: "friends", path: user.email).then((value) {
-      setState(() {
-        allData = value.data();
-      });
-    });
+    var allData =
+        (await Api().readPath(collection: "friends", path: user.email)).data()
+            as Map<String, dynamic>;
     inboundUsers = allData["inbound"].entries.toList();
     outboundUsers = allData["outbound"].entries.toList();
+  }
+
+  Widget get _menu {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        MenuButton(
+            title: "Inbound", pressed: inbound, switchButtons: onPressed),
+        MenuButton(
+            title: "Outbound", pressed: outbound, switchButtons: onPressed),
+      ],
+    );
   }
 
   void onPressed(type) {
@@ -44,11 +60,21 @@ class _InviteScreenState extends State<InviteScreen> {
     }
   }
 
-  @override
-  void initState() {
-    user = ProviderManager().getUser(context);
-    getInvReq();
-    super.initState();
+  Widget get _setInfoWidget {
+    return Center(
+        child: Text(
+      errorMSg,
+      style: const TextStyle(
+        color: primeColorTrans,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
+      textAlign: TextAlign.center,
+    ));
+  }
+
+  void _setErrorState(String msg) {
+    errorMSg = msg;
   }
 
   @override
@@ -86,34 +112,5 @@ class _InviteScreenState extends State<InviteScreen> {
         ],
       ),
     );
-  }
-
-  Widget get _menu {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        MenuButton(
-            title: "Inbound", pressed: inbound, switchButtons: onPressed),
-        MenuButton(
-            title: "Outbound", pressed: outbound, switchButtons: onPressed),
-      ],
-    );
-  }
-
-  void _setErrorState(String msg) {
-    errorMSg = msg;
-  }
-
-  Widget get _setInfoWidget {
-    return Center(
-        child: Text(
-      errorMSg,
-      style: const TextStyle(
-        color: primeColorTrans,
-        fontSize: 20,
-        fontWeight: FontWeight.w400,
-      ),
-      textAlign: TextAlign.center,
-    ));
   }
 }

@@ -56,23 +56,21 @@ class UserField extends StatelessWidget {
 
   void _acceptFriendRequest() async {
     var resp = await InvitesApi().acceptInvite(user, email, username);
-    print("Invite accepted1");
     if (resp != null) {
-      print("Invite accepted2");
+      debugPrint(resp);
       setErrorState("You already accepted friend request!");
     } else {
-      print("Invite accepted3");
+      debugPrint("Invite accepted");
       resetState();
     }
   }
 
   void _declineFriendRequest() async {
     var resp = await InvitesApi().declineInvite(user, email, username);
-    print("Invite declined");
     if (resp != null) {
-      setErrorState("Cant decline friend request");
+      setErrorState("Couldn't decline friend request");
     } else {
-      print("Invite declined");
+      debugPrint("Invite declined");
       resetState();
     }
   }
