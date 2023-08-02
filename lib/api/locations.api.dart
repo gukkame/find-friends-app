@@ -8,7 +8,7 @@ class LocationsApi extends GeneralApi {
   Future<String?> updatePosition(
       {required String email, required int lat, required int lng}) async {
     try {
-      await write(
+      await update(
         collection: "locations",
         path: email,
         data: {
