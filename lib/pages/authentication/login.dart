@@ -222,7 +222,7 @@ class _LogInState extends State<LogIn> {
 
   void _redirect() {
     debugPrint("logged in successfully! redirecting...");
-    navigate(context, "/map");
+    navigate(context, "/friend-list");
   }
 
   @override

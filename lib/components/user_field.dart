@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:kaquiz/api/api.dart';
+import 'package:kaquiz/pages/friend_list_page.dart';
 import '../../api/search_api.dart';
 import '../api/invites_api.dart';
 import '../utils/colors.dart';
 import '../utils/user.dart';
 import 'container.dart';
 
-class UserField extends StatelessWidget {
+class UserField extends StatefulWidget {
   final String type;
+  final NoteState? state;
   final User user;
   final String username;
   final String email;
   final void Function() resetState;
   final void Function(String) setErrorState;
 
-  const UserField({
+  UserField({
     super.key,
     required this.type,
+    this.state,
     required this.user,
     required this.username,
     required this.email,
@@ -24,67 +28,121 @@ class UserField extends StatelessWidget {
   });
 
   @override
+  State<UserField> createState() => _UserFieldState();
+}
+
+class _UserFieldState extends State<UserField> {
+  bool deleted = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        RoundedGradientContainer(
-          borderSize: 2,
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return deleted
+        ? const SizedBox.shrink()
+        : Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Flex(
+                direction: Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    username,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade800,
+                  Expanded(
+                    flex: 3,
+                    child: RoundedGradientContainer(
+                      borderSize: 2,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.username,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade800,
+                                ),
+                              ),
+                              _button
+                            ],
+                          )),
                     ),
                   ),
-                  _button
+                  if (widget.state == NoteState.delete) ...[
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    _deleteBtn
+                  ] else
+                    const SizedBox.shrink()
                 ],
-              )),
-        ),
-      ],
-    );
+              ),
+            ],
+          );
+  }
+
+  void _deleteFriend() async {
+    setState(() {
+      deleted = true;
+    });
+    //! To Delete friend from friend list
+    // await Api().delete(collection: "friends", path: email);
   }
 
   void _acceptFriendRequest() async {
-    var resp = await InvitesApi().acceptInvite(user, email, username);
-    print("Invite accepted1");
+    var resp = await InvitesApi()
+        .acceptInvite(widget.user, widget.email, widget.username);
     if (resp != null) {
-      print("Invite accepted2");
-      setErrorState("You already accepted friend request!");
+      widget.setErrorState("You already accepted friend request!");
     } else {
-      print("Invite accepted3");
-      resetState();
+      widget.resetState();
     }
   }
 
   void _declineFriendRequest() async {
-    var resp = await InvitesApi().declineInvite(user, email, username);
-    print("Invite declined");
+    var resp = await InvitesApi()
+        .declineInvite(widget.user, widget.email, widget.username);
     if (resp != null) {
-      setErrorState("Cant decline friend request");
+      widget.setErrorState("Cant decline friend request");
     } else {
-      print("Invite declined");
-      resetState();
+      widget.resetState();
     }
   }
 
   void _sendFriendRequest() async {
-    var resp = await SearchApi().sendFriendRequest(user, email, username);
+    var resp = await SearchApi()
+        .sendFriendRequest(widget.user, widget.email, widget.username);
     if (resp != null) {
-      setErrorState(
+      widget.setErrorState(
           "This user is already your friend or\nyou've already sent them a friend request!");
     } else {
-      resetState();
+      widget.resetState();
     }
+  }
+
+  Widget get _deleteBtn {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        padding: EdgeInsets.all(0.0),
+        decoration: BoxDecoration(
+            gradient: primeGradient,
+            borderRadius: BorderRadius.circular(200.0)),
+        child: IconButton(
+          style: const ButtonStyle(
+            overlayColor: MaterialStatePropertyAll(Colors.transparent),
+          ),
+          icon: const Icon(
+            Icons.remove,
+            size: 32,
+            color: Colors.white,
+          ),
+          onPressed: _deleteFriend,
+        ),
+      ),
+    );
   }
 
   Widget get _acceptBtn {
@@ -130,12 +188,16 @@ class UserField extends StatelessWidget {
   Widget get _button {
     var action;
     String title = "";
-    if (type == "Add") {
+    if (widget.type == "Add") {
       action = _sendFriendRequest;
       title = "Add";
-    } else if (type == "Outbound") {
+    } else if (widget.type == "Outbound") {
       title = "Invited";
-    } else if (type == "Inbound") {
+    } else if (widget.type == "Friend") {
+      return const SizedBox(
+        height: 50,
+      );
+    } else if (widget.type == "Inbound") {
       return Row(
         children: [
           _declineBtn,
@@ -151,7 +213,7 @@ class UserField extends StatelessWidget {
           alignment: Alignment.centerRight),
       onPressed: action,
       child: Container(
-        decoration: type == "Outbound"
+        decoration: widget.type == "Outbound"
             ? BoxDecoration(
                 color: primeColorTrans,
                 borderRadius: BorderRadius.circular(12.0),
