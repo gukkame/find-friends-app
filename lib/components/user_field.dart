@@ -25,33 +25,40 @@ class UserField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RoundedGradientContainer(
-      borderSize: 2,
-      child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                username,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade800,
-                ),
-              ),
-              _button
-            ],
-          )),
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        RoundedGradientContainer(
+          borderSize: 2,
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    username,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade800,
+                    ),
+                  ),
+                  _button
+                ],
+              )),
+        ),
+      ],
     );
   }
 
   void _acceptFriendRequest() async {
     var resp = await InvitesApi().acceptInvite(user, email, username);
-      print("Invite accepted1");
+    print("Invite accepted1");
     if (resp != null) {
-         print("Invite accepted2");
+      print("Invite accepted2");
       setErrorState("You already accepted friend request!");
     } else {
       print("Invite accepted3");
@@ -61,11 +68,11 @@ class UserField extends StatelessWidget {
 
   void _declineFriendRequest() async {
     var resp = await InvitesApi().declineInvite(user, email, username);
-      print("Invite declined");
+    print("Invite declined");
     if (resp != null) {
       setErrorState("Cant decline friend request");
     } else {
-        print("Invite declined");
+      print("Invite declined");
       resetState();
     }
   }

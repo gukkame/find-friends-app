@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:kaquiz/api/api.dart';
 import 'package:kaquiz/components/user_field.dart';
@@ -16,7 +18,7 @@ class InviteScreen extends StatefulWidget {
 
 class _InviteScreenState extends State<InviteScreen> {
   late User user;
-  String errorMSg = '';
+  String errorMSg = "Users not found";
   bool inbound = true;
   bool outbound = false;
   List<MapEntry<String, dynamic>> inboundUsers = [];
@@ -34,7 +36,7 @@ class _InviteScreenState extends State<InviteScreen> {
   }
 
   void onPressed(type) {
-    if (type == "Inbound" && !inbound ||type == "Outbound" && !outbound) {
+    if (type == "Inbound" && !inbound || type == "Outbound" && !outbound) {
       setState(() {
         inbound = !inbound;
         outbound = !outbound;
@@ -59,7 +61,7 @@ class _InviteScreenState extends State<InviteScreen> {
           const SizedBox(height: 30),
           Column(
             children: [
-              if (inbound && inboundUsers != [])
+              if (inbound && inboundUsers.isNotEmpty)
                 for (var userIn in inboundUsers)
                   UserField(
                       type: "Inbound",
@@ -68,7 +70,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       email: userIn.key,
                       resetState: () => {},
                       setErrorState: _setErrorState)
-              else if (!inbound && outboundUsers != [])
+              else if (!inbound && outboundUsers.isNotEmpty)
                 for (var userOut in outboundUsers)
                   UserField(
                       type: "Outbound",
