@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
+import '../helpers/convert.dart';
 import '../utils/user.dart';
 import 'general_api.dart';
 
@@ -12,12 +15,12 @@ class SearchApi extends GeneralApi {
       await update(
         collection: "friends",
         path: email,
-        data: {"inbound.${user.email}": user.name},
+        data: {"inbound.${Convert.encode(user.email)}": user.name},
       );
       await update(
           collection: "friends",
           path: user.email,
-          data: {"outbound.$email": name});
+          data: {"outbound.${Convert.encode(email)}": name});
       return null;
     } catch (e) {
       debugPrint(e.toString());
