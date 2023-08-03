@@ -34,55 +34,6 @@ class UserField extends StatefulWidget {
 class _UserFieldState extends State<UserField> {
   bool deleted = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return deleted
-        ? const SizedBox.shrink()
-        : Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: RoundedGradientContainer(
-                      borderSize: 2,
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                widget.username,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey.shade800,
-                                ),
-                              ),
-                              _button
-                            ],
-                          )),
-                    ),
-                  ),
-                  if (widget.state == NoteState.delete) ...[
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    _deleteBtn
-                  ] else
-                    const SizedBox.shrink()
-                ],
-              ),
-            ],
-          );
-  }
-
   void _deleteFriend() async {
     setState(() {
       deleted = true;
@@ -233,5 +184,54 @@ class _UserFieldState extends State<UserField> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return deleted
+        ? const SizedBox.shrink()
+        : Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: RoundedGradientContainer(
+                      borderSize: 2,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.username,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade800,
+                                ),
+                              ),
+                              _button
+                            ],
+                          )),
+                    ),
+                  ),
+                  if (widget.state == NoteState.delete) ...[
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    _deleteBtn
+                  ] else
+                    const SizedBox.shrink()
+                ],
+              ),
+            ],
+          );
   }
 }
