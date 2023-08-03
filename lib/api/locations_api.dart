@@ -1,4 +1,4 @@
-import '../utils/user.dart';
+import '../helpers/convert.dart';
 import 'general_api.dart';
 
 class LocationsApi extends GeneralApi {
@@ -10,7 +10,7 @@ class LocationsApi extends GeneralApi {
     try {
       await update(
         collection: "locations",
-        path: email,
+        path: Convert.encode(email),
         data: {
           "lat": lat,
           "lng": lng,
@@ -26,6 +26,6 @@ class LocationsApi extends GeneralApi {
   /// When the user at the given email updates their position,
   /// the stream will fire and give their new coordinates
   Stream getFriendLocationUpdater(String email) {
-    return getStream(collection: "locations", path: email);
+    return getStream(collection: "locations", path: Convert.encode(email));
   }
 }

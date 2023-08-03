@@ -30,13 +30,13 @@ class InvitesApi extends GeneralApi {
       debugPrint("removing $email from ${user.email} inbound");
       await update(
         collection: "friends",
-        path: user.email,
+        path: Convert.encode(user.email),
         data: {"inbound.${Convert.encode(email)}": FieldValue.delete()},
       );
       debugPrint("removing ${user.email} from $email outbound");
       await update(
         collection: "friends",
-        path: email,
+        path: Convert.encode(email),
         data: {"outbound.${Convert.encode(user.email)}": FieldValue.delete()},
       );
 

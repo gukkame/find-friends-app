@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
 class MenuButton extends StatefulWidget {
-  MenuButton({
+  const MenuButton({
     super.key,
     required this.title,
     required this.pressed,

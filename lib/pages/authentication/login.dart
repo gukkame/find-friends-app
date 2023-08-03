@@ -29,7 +29,7 @@ class _LogInState extends State<LogIn> {
   void initState() {
     widget.user
         .signInUser(
-      email: "test@gmail.com",
+      email: "laura@gmail.com",
       password: "pass123",
     )
         .then((value) {

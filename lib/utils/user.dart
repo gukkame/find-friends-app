@@ -36,6 +36,7 @@ class User {
         email: email,
         password: password,
       );
+      await credential.user?.updateDisplayName(name);
       this.email = email;
       this.name = name;
 

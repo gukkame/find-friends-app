@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kaquiz/helpers/convert.dart';
 import 'general_api.dart';
 
 class UserApi extends GeneralApi {
@@ -10,16 +11,16 @@ class UserApi extends GeneralApi {
       await write(
         collection: "users",
         path: email,
-        data: {"email": email, "name": name},
+        data: {"email": Convert.encode(email), "name": name},
       );
       await write(
         collection: "friends",
-        path: email,
+        path: Convert.encode(email),
         data: {"friends": {}, "outbound": {}, "inbound": {}},
       );
       await write(
         collection: "locations",
-        path: email,
+        path: Convert.encode(email),
         data: {"lat": 0, "lng": 0},
       );
       return true;

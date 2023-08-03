@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:kaquiz/api/api.dart';
 import 'package:kaquiz/components/user_field.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaquiz/api/api.dart';
-import 'package:kaquiz/pages/friend_list_page.dart';
+import '../../pages/friend_list_page.dart';
 import '../../api/search_api.dart';
 import '../api/invites_api.dart';
 import '../utils/colors.dart';
@@ -16,7 +15,7 @@ class UserField extends StatefulWidget {
   final void Function() resetState;
   final void Function(String) setErrorState;
 
-  UserField({
+  const UserField({
     super.key,
     required this.type,
     this.state,
@@ -77,7 +76,7 @@ class _UserFieldState extends State<UserField> {
     return Expanded(
       flex: 1,
       child: Container(
-        padding: EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(0.0),
         decoration: BoxDecoration(
             gradient: primeGradient,
             borderRadius: BorderRadius.circular(200.0)),
