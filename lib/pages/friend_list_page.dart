@@ -17,8 +17,6 @@ class FriendListPage extends StatefulWidget {
 }
 
 class _FriendListPageState extends State<FriendListPage> {
-  // List<Data> notes = [];
-  // List<Data> notes = ProviderManager().getUser(context);
 
   NoteState state = NoteState.none;
   @override
@@ -27,7 +25,8 @@ class _FriendListPageState extends State<FriendListPage> {
       appBar: CustomAppBar(title: "Friends List", actions: [
         IconButton(
             icon: const Icon(
-              Icons.remove,
+              Icons.delete,
+              size: 27,
               color: Colors.white,
             ),
             onPressed: () {
