@@ -24,18 +24,20 @@ class InvitesApi extends GeneralApi {
 
   Future<String?> declineInvite(User user, String email, String name) async {
     debugPrint("we are ${user.email}");
-    debugPrint("we were sent a friend request from $email");
+    debugPrint("we got a friend request from $email");
     try {
       debugPrint("removing $email from ${user.email} inbound");
       await update(
-          collection: "friends",
-          path: user.email,
-          data: {"inbound.$email": FieldValue.delete()});
+        collection: "friends",
+        path: user.email,
+        data: {"inbound.$email": FieldValue.delete()},
+      );
       debugPrint("removing ${user.email} from $email outbound");
       await update(
-          collection: "friends",
-          path: email,
-          data: {"outbound.${user.email}": FieldValue.delete()});
+        collection: "friends",
+        path: email,
+        data: {"outbound.${user.email}": FieldValue.delete()},
+      );
 
       return null;
     } catch (e) {
