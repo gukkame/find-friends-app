@@ -6,8 +6,8 @@ import 'pages/friend_list_page.dart';
 import 'pages/invites.dart';
 import 'pages/map.dart';
 import 'pages/search.dart';
-import 'screens/authentication/login.dart';
-import 'screens/authentication/signup.dart';
+import 'pages/authentication/login.dart';
+import 'pages/authentication/signup.dart';
 import 'provider/user_provider.dart';
 import 'firebase_options.dart';
 
