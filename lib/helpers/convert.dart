@@ -1,6 +1,11 @@
-import 'dart:convert';
+import 'package:encrypt/encrypt.dart';
 
 class Convert {
-  static String encode(String data) => base64Url.encode(utf8.encode(data));
-  static String decode(String data) => utf8.decode(base64Url.decode(data));
+  static String encrypt(String data) {
+    return data.replaceAll(".", ":");
+  }
+
+  static String decrypt(String data) {
+    return data.replaceAll(":", ".");
+  }
 }

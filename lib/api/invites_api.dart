@@ -7,8 +7,8 @@ import 'general_api.dart';
 
 class InvitesApi extends GeneralApi {
   Future<String?> acceptInvite(User user, String email, String name) async {
-    String ourEmail = Convert.encode(user.email);
-    String theirEmail = Convert.encode(email);
+    String ourEmail = Convert.encrypt(user.email);
+    String theirEmail = Convert.encrypt(email);
 
     try {
       await update(
@@ -36,8 +36,8 @@ class InvitesApi extends GeneralApi {
   }
 
   Future<String?> declineInvite(User user, String email, String name) async {
-    String ourEmail = Convert.encode(user.email);
-    String theirEmail = Convert.encode(email);
+    String ourEmail = Convert.encrypt(user.email);
+    String theirEmail = Convert.encrypt(email);
     try {
       await update(
         collection: "friends",

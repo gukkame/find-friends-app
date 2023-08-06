@@ -41,6 +41,9 @@ class _InviteScreenState extends State<InviteScreen> {
         ? allData["outbound"].entries.toList()
         : outboundUsers;
 
+    debugPrint("inbound: ${allData}");
+    debugPrint("inbound: ${inboundUsers}");
+    debugPrint("outbound: ${outboundUsers}");
     debugPrint("new dada added");
     setState(() {});
   }
@@ -59,10 +62,9 @@ class _InviteScreenState extends State<InviteScreen> {
 
   void onPressed(type) {
     if (type == "Inbound" && !inbound || type == "Outbound" && !outbound) {
-      setState(() {
-        inbound = !inbound;
-        outbound = !outbound;
-      });
+      inbound = !inbound;
+      outbound = !outbound;
+      getInvReq();
     }
   }
 
@@ -82,7 +84,6 @@ class _InviteScreenState extends State<InviteScreen> {
   void _setErrorState(String msg) {
     errorMSg = msg;
   }
-
 
   @override
   Widget build(BuildContext context) {

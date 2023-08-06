@@ -8,15 +8,15 @@ import '../utils/user.dart';
 class FriendsApi extends GeneralApi {
   Future<Map<String, dynamic>> getFriends(User user) async {
     try {
-      var data =
-          (await readPath(collection: "friends", path: Convert.encode(user.email)))
-              .data() as Map<String, dynamic>;
+      var data = (await readPath(
+              collection: "friends", path: Convert.encrypt(user.email)))
+          .data() as Map<String, dynamic>;
 
       Map<String, Map<String, String>> friends = {};
       for (var field in data.entries) {
         Map<String, String> fieldValue = {};
         for (var entry in field.value.entries) {
-          fieldValue[Convert.decode(entry.key)] = entry.value as String;
+          fieldValue[Convert.decrypt(entry.key)] = entry.value as String;
         }
         friends[field.key] = fieldValue;
       }
@@ -31,8 +31,8 @@ class FriendsApi extends GeneralApi {
     try {
       await update(
         collection: "friends",
-        path: Convert.encode(user.email),
-        data: {"friends.${Convert.encode(email)}" : FieldValue.delete()},
+        path: Convert.encrypt(user.email),
+        data: {"friends.${Convert.encrypt(email)}": FieldValue.delete()},
       );
       return null;
     } catch (e) {

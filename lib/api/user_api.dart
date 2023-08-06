@@ -11,16 +11,16 @@ class UserApi extends GeneralApi {
       await write(
         collection: "users",
         path: email,
-        data: {"email": Convert.encode(email), "name": name},
+        data: {"email": Convert.encrypt(email), "name": name},
       );
       await write(
         collection: "friends",
-        path: Convert.encode(email),
+        path: Convert.encrypt(email),
         data: {"friends": {}, "outbound": {}, "inbound": {}},
       );
       await write(
         collection: "locations",
-        path: Convert.encode(email),
+        path: Convert.encrypt(email),
         data: {"lat": 0, "lng": 0},
       );
       return true;

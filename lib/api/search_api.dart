@@ -12,13 +12,13 @@ class SearchApi extends GeneralApi {
     try {
       await update(
         collection: "friends",
-        path: Convert.encode(email),
-        data: {"inbound.${Convert.encode(user.email)}": user.name},
+        path: Convert.encrypt(email),
+        data: {"inbound.${Convert.encrypt(user.email)}": user.name},
       );
       await update(
           collection: "friends",
-          path: Convert.encode(user.email),
-          data: {"outbound.${Convert.encode(email)}": name});
+          path: Convert.encrypt(user.email),
+          data: {"outbound.${Convert.encrypt(email)}": name});
       return null;
     } catch (e) {
       debugPrint(e.toString());
