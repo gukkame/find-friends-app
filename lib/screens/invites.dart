@@ -83,6 +83,7 @@ class _InviteScreenState extends State<InviteScreen> {
     errorMSg = msg;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,7 +101,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       user: user,
                       username: userIn.value,
                       email: userIn.key,
-                      resetState: () => {},
+                      resetState: getInvReq,
                       setErrorState: _setErrorState)
               else if (!inbound && outboundUsers.isNotEmpty)
                 for (var userOut in outboundUsers)
@@ -109,7 +110,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       user: user,
                       username: userOut.value,
                       email: userOut.key,
-                      resetState: getInvReq,
+                      resetState: () => {},
                       setErrorState: _setErrorState)
               else
                 _setInfoWidget
