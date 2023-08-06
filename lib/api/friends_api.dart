@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kaquiz/api/general_api.dart';
 import 'package:kaquiz/helpers/convert.dart';
+
+import '../utils/user.dart';
 
 class FriendsApi extends GeneralApi {
   Future<Map<String, dynamic>> getFriends(String email) async {
@@ -21,6 +24,19 @@ class FriendsApi extends GeneralApi {
     } catch (e) {
       debugPrint("$e");
       return {};
+    }
+  }
+
+  Future<String?> removeFriend(User user, String email) async {
+    try {
+      await update(
+        collection: "friends",
+        path: Convert.encode(user.email),
+        data: {"friends.${Convert.encode(email)}" : FieldValue.delete()},
+      );
+      return null;
+    } catch (e) {
+      return e.toString();
     }
   }
 }

@@ -65,7 +65,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
                   user: user,
                   username: friend.value,
                   email: friend.key,
-                  resetState: () => {},
+                  resetState: getFriendList,
                   setErrorState: _setErrorState)
           else
             _setInfoWidget
