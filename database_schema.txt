@@ -4,15 +4,15 @@ Collection users
     - email:    String
 
 Collection locations
- document email
+ document hashedEmail
     - lat:      double
     - lng:      double 
 
 Collection friends
- document email
-    - friend:   Map<String, String> {email: name} 
-    - outbound: Map<String, String> {email: name} 
-    - inbound:  Map<String, String> {email: name} 
+ document hashedEmail
+    - friend:   Map<String, String> {hashedEmail: name} 
+    - outbound: Map<String, String> {hashedEmail: name} 
+    - inbound:  Map<String, String> {hashedEmail: name} 
 
 //* The datatype change was made so that when a user queries the friends collection,
 //* They get all of the relevant info needed. 

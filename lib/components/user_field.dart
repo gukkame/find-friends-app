@@ -47,6 +47,7 @@ class _UserFieldState extends State<UserField> {
     if (resp != null) {
       widget.setErrorState("You already accepted friend request!");
     } else {
+      debugPrint("accepted friend request: $resp");
       widget.resetState();
     }
   }
@@ -54,9 +55,11 @@ class _UserFieldState extends State<UserField> {
   void _declineFriendRequest() async {
     var resp = await InvitesApi()
         .declineInvite(widget.user, widget.email, widget.username);
+    debugPrint("declined friend request: $resp");
     if (resp != null) {
       widget.setErrorState("Cant decline friend request");
     } else {
+      debugPrint("accepted friend request: $resp");
       widget.resetState();
     }
   }
@@ -136,7 +139,7 @@ class _UserFieldState extends State<UserField> {
   }
 
   Widget get _button {
-    var action;
+    void Function()? action;
     String title = "";
     if (widget.type == "Add") {
       action = _sendFriendRequest;

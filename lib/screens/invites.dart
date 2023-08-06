@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaquiz/api/api.dart';
+import 'package:kaquiz/api/friends_api.dart';
 import 'package:kaquiz/components/user_field.dart';
 
 import '../components/menu_button.dart';
@@ -8,7 +8,9 @@ import '../utils/colors.dart';
 import '../utils/user.dart';
 
 class InviteScreen extends StatefulWidget {
-  const InviteScreen({super.key});
+  final FriendsApi api = FriendsApi();
+
+  InviteScreen({super.key});
 
   @override
   State<InviteScreen> createState() => _InviteScreenState();
@@ -29,12 +31,18 @@ class _InviteScreenState extends State<InviteScreen> {
     super.initState();
   }
 
-  Future<void> getInvReq() async {
-    var allData =
-        (await Api().readPath(collection: "friends", path: user.email)).data()
-            as Map<String, dynamic>;
-    inboundUsers = allData["inbound"].entries.toList();
-    outboundUsers = allData["outbound"].entries.toList();
+  void getInvReq() async {
+    debugPrint("called getInvReq");
+    var allData = await widget.api.getFriends(user.email);
+    inboundUsers = allData.containsKey("inbound")
+        ? allData["inbound"].entries.toList()
+        : inboundUsers;
+    outboundUsers = allData.containsKey("outbound")
+        ? allData["outbound"].entries.toList()
+        : outboundUsers;
+
+    debugPrint("new dada added");
+    setState(() {});
   }
 
   Widget get _menu {
@@ -101,7 +109,7 @@ class _InviteScreenState extends State<InviteScreen> {
                       user: user,
                       username: userOut.value,
                       email: userOut.key,
-                      resetState: () => {},
+                      resetState: getInvReq,
                       setErrorState: _setErrorState)
               else
                 _setInfoWidget
