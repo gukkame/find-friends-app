@@ -33,7 +33,7 @@ class _InviteScreenState extends State<InviteScreen> {
 
   void getInvReq() async {
     debugPrint("called getInvReq");
-    var allData = await widget.api.getFriends(user.email);
+    var allData = await widget.api.getFriends(user);
     inboundUsers = allData.containsKey("inbound")
         ? allData["inbound"].entries.toList()
         : inboundUsers;

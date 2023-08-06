@@ -1,6 +1,3 @@
-
-//Display map with friend locations on the map
-
 import 'package:flutter/material.dart';
 
 import '../components/bottom_nav_bar.dart';
@@ -15,11 +12,10 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   @override
-   Widget build(BuildContext context) {
-    return const Scaffold(
-      // appBar:  CustomAppBar(title: "Friends List"),
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: MapScreen(),
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: const BottomNavBar(
         index: 0,
       ),
     );

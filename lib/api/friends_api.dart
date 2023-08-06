@@ -6,10 +6,10 @@ import 'package:kaquiz/helpers/convert.dart';
 import '../utils/user.dart';
 
 class FriendsApi extends GeneralApi {
-  Future<Map<String, dynamic>> getFriends(String email) async {
+  Future<Map<String, dynamic>> getFriends(User user) async {
     try {
       var data =
-          (await readPath(collection: "friends", path: Convert.encode(email)))
+          (await readPath(collection: "friends", path: Convert.encode(user.email)))
               .data() as Map<String, dynamic>;
 
       Map<String, Map<String, String>> friends = {};

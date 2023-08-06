@@ -1,9 +1,15 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../api/locations_api.dart';
 
 class Location {
   final String username;
-  final double? lat;
-  final double? lng;
+  double? lat;
+  double? lng;
+  StreamSubscription<DocumentSnapshot<Object?>>? _updater;
 
   Location({
     required this.username,
@@ -28,6 +34,19 @@ class Location {
       'lat': lat,
       'lng': lng,
     };
+  }
+
+  Location setStream(String email) {
+    _updater = LocationsApi().getFriendLocationUpdater(email).listen((data) {
+      var location = data.data() as Map<String, dynamic>;
+      lat = location["lat"] as double;
+      lng = location["lng"] as double;
+    });
+    return this;
+  }
+
+  void closeStream() {
+    _updater?.cancel();
   }
 }
 

@@ -27,7 +27,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
   }
 
   Future<void> getFriendList() async {
-    var allData = await widget.api.getFriends(user.email);
+    var allData = await widget.api.getFriends(user);
     allFriends = allData.containsKey("friends")
         ? (allData["friends"] as Map<String, dynamic>).entries.toList()
         : allFriends;

@@ -3,14 +3,21 @@
 // Gets friends Lat, Long
 // Saves them into markers and displays on google map
 
+import 'dart:async';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:kaquiz/api/friends_api.dart';
+import '../../api/locations_api.dart';
 
-import '../helpers/user_info.dart';
+import '../helpers/location.dart';
+import '../provider/provider_manager.dart';
 import '../user_location_permission.dart';
+import '../utils/user.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final LocationsApi api = LocationsApi();
+  MapScreen({super.key});
 
   set tappedMarker2(bool tappedMarker2) {}
 
@@ -19,46 +26,65 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  late User user;
   LatLng currentLocation = const LatLng(59.3530117, 27.4133083);
-  List<Location> favLocations = [
+  List<Location> locations = [
     Location(username: "Laura", lat: 59.31, lng: 27.1)
   ];
   late GoogleMapController mapController;
   var tappedOnMarker = false;
-
-  // set tappedMarker2(bool isTapped) => tappedOnMarker;
-
-  void test() {
-    debugPrint(" dw;");
-  }
-
   var addToFav = false;
-
   late Location lastTappedMarker =
       Location(username: 'ds', lat: 58.31, lng: 27.1);
-
   CameraPosition camera =
       const CameraPosition(target: LatLng(59.3530117, 27.4133083), zoom: 12);
+  late Timer timer;
+
+  @override
+  void initState() {
+    user = ProviderManager().getUser(context);
+    final userPerm = UserLocation();
+
+    userPerm.getUserCurrentLocation().then((value) {
+      currentLocation = LatLng(value.latitude, value.longitude);
+      debugPrint("$currentLocation");
+      timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+        debugPrint("self updating position");
+        widget.api.updatePosition(
+          user: user,
+          lat: currentLocation.latitude,
+          lng: currentLocation.longitude,
+        );
+        setState(() {});
+      });
+      setFriendLocationListeners();
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    for (var location in locations) {
+      location.closeStream();
+    }
+    super.dispose();
+  }
+
+  Future<void> setFriendLocationListeners() async {
+    var friends = await FriendsApi().getFriends(user);
+    for (var friend in (friends["friends"] as Map<String, String>).entries) {
+      locations.add(Location(username: friend.value).setStream(friend.key));
+    }
+  }
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     debugPrint("On Map Create");
     setState(() {});
   }
-
-  // Future<void> _onTapMap(LatLng latLng) async {
-  //   final mapData = MapData();
-
-  //   lastTappedMarker = await mapData.getTapLocation(latLng);
-
-  //   setState(() {
-  //     addToFav = false;
-  //     icon = Icon(Icons.favorite_border);
-
-  //     lastTappedMarker = lastTappedMarker;
-  //     tappedOnMarker = true;
-  //   });
-  // }
 
   void updateLocation(Location location) {
     setState(() {
@@ -83,20 +109,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Set<Marker> getMarkers() {
-    var markers = convertUserInfosToMarkers(favLocations, markerPressed);
+    var markers = convertUserInfosToMarkers(locations, markerPressed);
     return markers;
-  }
-
-  @override
-  void initState() {
-    final userPerm = UserLocation();
-    userPerm.getUserCurrentLocation().then((value) {
-      setState(() {
-        currentLocation = LatLng(value.latitude, value.longitude);
-        debugPrint("$currentLocation");
-      });
-    });
-    super.initState();
   }
 
   @override
