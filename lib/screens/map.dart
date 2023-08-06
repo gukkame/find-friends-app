@@ -28,9 +28,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late User user;
   LatLng currentLocation = const LatLng(59.3530117, 27.4133083);
-  List<Location> locations = [
-    Location(username: "Laura", lat: 59.31, lng: 27.1)
-  ];
+  List<Location> locations = [];
   late GoogleMapController mapController;
   var tappedOnMarker = false;
   var addToFav = false;

@@ -37,6 +37,7 @@ class Location {
   }
 
   Location setStream(String email) {
+    debugPrint("setting stream for $email");
     _updater = LocationsApi().getFriendLocationUpdater(email).listen((data) {
       var location = data.data() as Map<String, dynamic>;
       lat = location["lat"] as double;

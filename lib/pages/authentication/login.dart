@@ -24,18 +24,18 @@ class _LogInState extends State<LogIn> {
   String? _loadingText;
   bool _submitLock = false;
 
-  //! TEMP logging in with an existing account for testing
   @override
   void initState() {
-    widget.user
-        .signInUser(
-      email: "gukka@gmail.com",
-      password: "pass123",
-    )
-        .then((value) {
-      _setUser();
-      _redirect();
-    },);
+    //! TEMP logging in with an existing account for testing
+    // widget.user
+    //     .signInUser(
+    //   email: "laura@gmail.com",
+    //   password: "pass123",
+    // )
+    //     .then((value) {
+    //   _setUser();
+    //   _redirect();
+    // },);
     super.initState();
   }
 
