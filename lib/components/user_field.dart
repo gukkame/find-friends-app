@@ -60,11 +60,10 @@ class _UserFieldState extends State<UserField> {
   void _declineFriendRequest() async {
     var resp = await InvitesApi()
         .declineInvite(widget.user, widget.email, widget.username);
-    debugPrint("declined friend request: $resp");
     if (resp != null) {
       widget.setErrorState("Cant decline friend request");
     } else {
-      debugPrint("accepted friend request: $resp");
+      debugPrint("declined friend request: $resp");
       widget.resetState();
     }
   }
