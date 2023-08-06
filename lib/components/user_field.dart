@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaquiz/api/friends_api.dart';
 import '../../pages/friend_list_page.dart';
 import '../../api/search_api.dart';
 import '../api/invites_api.dart';
@@ -34,11 +35,15 @@ class _UserFieldState extends State<UserField> {
   bool deleted = false;
 
   void _deleteFriend() async {
-    setState(() {
-      deleted = true;
-    });
-    //! To Delete friend from friend list
-    // await Api().delete(collection: "friends", path: email);
+    var resp = await FriendsApi().removeFriend(widget.user, widget.email);
+    if (resp != null) {
+      widget.setErrorState(resp);
+    } else {
+      setState(() {
+        deleted = true;
+      });
+      widget.resetState();
+    }
   }
 
   void _acceptFriendRequest() async {
